@@ -1,8 +1,8 @@
 //starting freelancer array at least 2 objects [{name: , occupation: price:}]
 const freelancers = [
-    {Name: "Bob", Occupation: "Artist", Price: "1,000"},
+    {Name: "Bob", Occupation: "Artist", Price: "1000"},
     {Name: "Harry", Occupation: "Plumber", Price: "500"},
-    {Name: "Jerry", Occupation: "Architect", Price: "2,000"}
+    {Name: "Jerry", Occupation: "Architect", Price: "2000"}
 ]
 
 //array of names
@@ -47,28 +47,28 @@ the object key of a freelancer
 */
 function init() {
     const freelancer = document.querySelector("#freelancer");
-
+    
     // const h1 = document.createElement("h1");
     // h1.textContent = "Freelancer Forum";
     // freelancer.append(h1);
-
+    
     const table = document.createElement("table");
     const thead = document.createElement("thead");
     const tbody = document.createElement("tbody");
     const header_row = document.createElement("tr");
-
+    
     for (let key in freelancers[0]) {
         const th = document.createElement("th");
         th.textContent = key;
-
+        
         header_row.append(th);
     }
     thead.append(header_row);
     table.append(thead);
     table.append(tbody);
-
+    
     freelancer.append(table);
-
+    
     //call function you made below here
     freelancerArray();
 }
@@ -87,27 +87,29 @@ function init() {
  *          2-3. Append tds to tr
  *          2-4. return tr
  *      3. replace children of tbody with the elements created in the map
- */
+*/
 function freelancerArray() {
     const freelancerTable = document.querySelector("tbody");
-
+    
     const freelancerElements = freelancers.map((freelancer) => {
         const row = document.createElement("tr");
-
+        
         const freelancer_name = document.createElement("td");
         freelancer_name.textContent = freelancer.Name;
-
+        
         const freelancer_occ = document.createElement("td");
         freelancer_occ.textContent = freelancer.Occupation;
-
+        
         const freelancer_price = document.createElement("td");
         freelancer_price.textContent = freelancer.Price;
-
+        
         row.append(freelancer_name, freelancer_occ, freelancer_price);
-
+        
         return row;
     });
-
+    const average_price = document.querySelector(".average_price");
+    average_price.textContent = getAverage();
+    
     freelancerTable.replaceChildren(...freelancerElements);
 }
 /**
@@ -125,15 +127,19 @@ function freelancerArray() {
  * @param {Array} array
  * @returns Number
  */
-function addPrice(freelancers){
-    const priceSum = freelancers.reduce((total, freelancer) => {
-    return total += freelancer.Price
-    },0)
-    return priceSum
+function getAverage(){
+    let total = 0
+  freelancers.map(freelancer => {
+    total += freelancer.Price * 1
+  })
+  const average = total / freelancers.length
+  return average.toFixed(2)
 }
-function avg(priceSum, arr) {
-    return priceSum / arr.length;
-}
+
+
+// function avg(totalPrice, arr) {
+//     return totalPrice / arr.length;
+// }
 /**
  *  Create a function to add a new freelancer to the frelancer array
  * 
@@ -147,9 +153,21 @@ function avg(priceSum, arr) {
  *      6. Call the function created above to render freelancer array
  *      7. Call the function above to render the average price
  */
+const addFreelancer = () => {
+    const newFreelancerName = Names[Math.floor(Math.random() * Names.length)];
 
+    const newFreelancerOcc = Occupations[Math.floor(Math.random() * Occupations.length)];
+    console.log(newFreelancerName, newFreelancerOcc)
+    const newPrice = Math.floor(Math.random() * (5000));
+    const newFreelancer = {
+        Name: newFreelancerName.Name, Occupation: newFreelancerOcc.Occupation, Price: newPrice
+    }
+    freelancers.push(newFreelancer);
+
+    freelancerArray();
+}
 // setInterval calling the function that adds a new freelancer every second aka 1000 miliseconds
-
+setInterval(addFreelancer, 1000);
 
 //call init function
 init();
